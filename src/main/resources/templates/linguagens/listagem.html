@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{template.html}"
+>
+<head>
+    <title>Lista de Linguagens</title>
+</head>
+<body>
+
+<div layout:fragment="conteudo">
+    <h1>Lista de linguagem</h1>
+
+    <a href="/linguagens/formulario">Novo</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>NOME</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="linguagem : ${lista}">
+                <td th:text="${linguagem.nome}"></td>
+                <td>
+                    <a th:href="@{/linguagens/formulario?id={id}(id=${linguagem.id})}">Editar</a>
+
+                    <form action="/linguagens" method="post">
+                        <input type="hidden" name="_method" value="delete">
+                        <input type="hidden" name="id" th:value="${linguagem.id}">
+
+                        <input type="submit" value="Excluir">
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
