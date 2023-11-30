@@ -1,6 +1,8 @@
-version: '3.3'
+version: '3.5'
+
 services:
   server:
+    container_name: web
     build:
       context: ./
       dockerfile: Dockerfile
@@ -8,20 +10,20 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - mysqldb
+      - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/linguagens
+      SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/linguagens?autoReconnect=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: password
-
-  mysqldb:
-    image: mysql:5.7
+  db:
+    image: mariadb
+    container_name: db
     restart: always
     environment:
-      MYSQL_DATABASE: 'linguagens'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'password'
-      MYSQL_ROOT_PASSWORD: 'password'
+      MARIADB_DATABASE: linguagens
+      MARIADB_USER: user
+      MARIADB_PASSWORD: password
+      MARIADB_ROOT_PASSWORD: password
     ports:
       - '3307:3306'
     expose:
