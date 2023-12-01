@@ -1,5 +1,4 @@
-version: '3.5'
-
+version: '3.7'
 services:
   server:
     container_name: web
@@ -8,16 +7,17 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - "8080:8080"
+      - 8080:8080
     depends_on:
       - db
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/linguagens?autoReconnect=true&useSSL=false
-      SPRING_DATASOURCE_USERNAME: user
-      SPRING_DATASOURCE_PASSWORD: password
+    command: sh -c './wait-for mysql_db:3306 -- npm start'
+    #environment:
+    #  SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/linguagens?autoReconnect=true&useSSL=false
+    #  SPRING_DATASOURCE_USERNAME: user
+    #  SPRING_DATASOURCE_PASSWORD: password
   db:
-    image: mariadb
-    container_name: db
+    image: "mariadb:10.5.8"
+    #container_name: db
     restart: always
     environment:
       MARIADB_DATABASE: linguagens
@@ -25,9 +25,9 @@ services:
       MARIADB_PASSWORD: password
       MARIADB_ROOT_PASSWORD: password
     ports:
-      - '3307:3306'
-    expose:
-      - '3306'
+      - 3307:3306
+    #expose:
+    #  - '3306'
     volumes:
       - db_data:/var/lib/mysql
 
