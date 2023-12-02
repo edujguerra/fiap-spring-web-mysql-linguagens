@@ -11,23 +11,16 @@ services:
     depends_on:
       - db
     command: sh -c './wait-for mysql_db:3306 -- npm start'
-    #environment:
-    #  SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/linguagens?autoReconnect=true&useSSL=false
-    #  SPRING_DATASOURCE_USERNAME: user
-    #  SPRING_DATASOURCE_PASSWORD: password
   db:
     image: "mariadb:10.5.8"
-    #container_name: db
     restart: always
     environment:
-      MARIADB_DATABASE: linguagens
-      MARIADB_USER: user
-      MARIADB_PASSWORD: password
-      MARIADB_ROOT_PASSWORD: password
+      MYSQL_DATABASE: linguagens
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
     ports:
       - 3307:3306
-    #expose:
-    #  - '3306'
     volumes:
       - db_data:/var/lib/mysql
 
